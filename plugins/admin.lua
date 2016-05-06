@@ -240,6 +240,5 @@ return {
 --  ||           ||-_-_-_-_     \\-_-_-_-//    -_-_-_-_-_-//
 --
 --By @holyscrolls
---@telemanager_ch
 
 --Tnx To Imandaneshi for this Plugin ;)
