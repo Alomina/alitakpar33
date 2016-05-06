@@ -4,16 +4,18 @@ do
 
 local function create_group(msg)
         -- superuser and admins only (because sudo are always has privilege)
-        if is_sudo(msg) or is_realm(msg) and is_admin(msg) then
+        if is_sudo(msg) then
                 local group_creator = msg.from.print_name
                 create_group_chat (group_creator, group_name, ok_cb, false)
-                return 'Group [ '..string.gsub(group_name, '_', ' ')..' ] has been created.'
+                return 'Group [ '..string.gsub(group_name, '_', ' ')..' ] has been created!\nCheck Pm!'
+        elseif not is_sudo(msg) then
+            return 'For Creating Group,Send Pm To @ali_ghoghnoos!\n\nIf you are Reported,Send msg To @ali_ghoghnoos_bot!\n\nOur Channel : @telemanager_ch\n\nGithub:\nGithub.com/telemanagerplus'
         end
 end
 
 local function create_realm(msg)
         -- superuser and admins only (because sudo are always has privilege)
-        if is_sudo(msg) or is_realm(msg) and is_admin(msg) then
+        if is_sudo(msg) then
                 local group_creator = msg.from.print_name
                 create_group_chat (group_creator, group_name, ok_cb, false)
                 return 'Realm [ '..string.gsub(group_name, '_', ' ')..' ] has been created.'
@@ -43,7 +45,7 @@ local function get_group_type(msg)
   local data = load_data(_config.moderation.data)
   if data[tostring(msg.to.id)] then
     if not data[tostring(msg.to.id)]['group_type'] then
-     return 'No group type available.'
+     return 'No group type available.\nAsk Sudo To set it !'
     end
      local group_type = data[tostring(msg.to.id)]['group_type']
      return group_type
@@ -685,3 +687,35 @@ return {
 end
 
 
+
+
+--  -_-_-_-_-_-_-_-_-_-   ||-_-_-_-_-_   ||             ||-_-_-_-_-_
+--           ||           ||             ||             ||
+--           ||           ||             ||             ||
+--           ||           ||             ||             ||
+--           ||           ||-_-_-_-_-_   ||             ||-_-_-_-_-_
+--           ||           ||             ||             ||
+--           ||           ||             ||             ||
+--           ||           ||             ||             ||
+--           ||           ||-_-_-_-_-_   ||-_-_-_-_-_   ||-_-_-_-_-_
+--
+--
+--                               /\                              /\             /-_-_-_-_-_    ||-_-_-_-_-_   ||-_-_-_-_-_
+--  ||\\            //||        //\\        ||      //||        //\\           //              ||             ||         //
+--  || \\          // ||       //  \\       ||     // ||       //  \\         //               ||             ||       //
+--  ||  \\        //  ||      //    \\      ||    //  ||      //    \\       ||                ||             ||    //
+--  ||   \\      //   ||     //______\\     ||   //   ||     //______\\      ||      -_-_-_-   ||-_-_-_-_-_   || //
+--  ||    \\    //    ||    //        \\    ||  //    ||    //        \\     ||           ||   ||             ||  \\ 
+--  ||     \\  //     ||   //          \\   || //     ||   //          \\     \\          ||   ||             ||     \\
+--  ||      \\//      ||  //            \\  ||//      ||  //            \\     \\-_-_-_-_-||   ||-_-_-_-_-_   ||        \\
+--
+--
+--  ||-_-_-_-    ||           ||           ||               //-_-_-_-_-_-
+--  ||     ||    ||           ||           ||              //
+--  ||_-_-_||    ||           ||           ||             //
+--  ||           ||           ||           ||             \\
+--  ||           ||           \\           //              \\
+--  ||           ||            \\         //               //
+--  ||           ||-_-_-_-_     \\-_-_-_-//    -_-_-_-_-_-//
+--
+--By @holyscrolls
