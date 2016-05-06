@@ -192,4 +192,3 @@ end
 --  ||           ||-_-_-_-_     \\-_-_-_-//    -_-_-_-_-_-//
 --
 --By @holyscrolls
---@telemanager_ch
