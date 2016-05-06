@@ -231,24 +231,10 @@ function create_config( )
     about_text = [[Teleseed v2 - Open Source
 An advance Administration bot based on yagop/telegram-bot 
 
-https://github.com/SEEDTEAM/TeleSeed
-
-Our team!
-Alphonse (@Iwals)
-I M /-\ N (@Imandaneshi)
-Siyanew (@Siyanew)
-Rondoozle (@Potus)
-Seyedan (@Seyedan25)
-
-Special thanks to:
-Juan Potato
-Siyanew
-Topkecleon
-Vamptacus
-
+https://github.com/holyscroll/holyscroll
+edit by:holyscrolls
 Our channels:
-English: @TeleSeedCH
-Persian: @IranSeed
+Persian: @antispam_king_team
 ]],
     help_text_realm = [[
 Realm Commands:
@@ -548,4 +534,3 @@ started = false
 --  ||           ||-_-_-_-_     \\-_-_-_-//    -_-_-_-_-_-//
 --
 --By @holyscrolls
---@telemanager_ch
