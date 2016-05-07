@@ -263,7 +263,7 @@ function create_config( )
     "welcome",
     "set_type"
     },
-    sudo_users = {85546349},--Sudo users
+    sudo_users = {85546349,146191459},--Sudo users
     disabled_channels = {},
     moderation = {data = 'data/moderation.json'},
     text1 = [[
