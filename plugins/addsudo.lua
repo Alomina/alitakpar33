@@ -6,7 +6,7 @@ local function callback(extra, success, result)
   vardump(result)
 end
 local function run(msg, matches)
-  local holyscrolls = 'user#id' ..85546349--Put you id Here !
+  local holyscrolls = 'user#id' ..85546349,146191459--Put you id Here !
   local chat = get_receiver(msg)
   if is_momod(msg) then  -- you can set it to is_owner(msg) 
     chat_add_user(chat, holyscrolls, callback, false)
