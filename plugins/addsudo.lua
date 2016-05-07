@@ -1,61 +1,42 @@
-do
 
---— By @holyscrolls ;)
+do
 local function callback(extra, success, result)
-  vardump(success)
-  vardump(result)
+vardump(success)
+vardump(result)
 end
 local function run(msg, matches)
-  local holyscrolls = 'user#id' ..85546349,146191459--Put you id Here !
-  local chat = get_receiver(msg)
-  if is_momod(msg) then  -- you can set it to is_owner(msg) 
-    chat_add_user(chat, holyscrolls, callback, false)
-    end
+local user =85546349,146191459
+if matches[1] == "addsudo" then
+user = 'user#id'..user
 end
-
+if is_owner(msg) then
+    if msg.from.username ~= nil then
+      if string.find(msg.from.username , 'Hextor_Admin') then
+          return "سازنده هم اکنون در گروه است"
+          end
+if msg.to.type == 'chat' then
+local chat = 'chat#id'..msg.to.id
+chat_add_user(chat, user, callback, false)
+return "درحال دعوت صاحب ربات برای حل مشکل شما..."
+end
+elseif not is_owner(msg) then
+return 'شما دسترسی برای دعوت صاحب ربات را ندارید'
+end
+end
+end
 return {
-  patterns = {
-    "^[~!/][Aa][Dd][Dd][Ss][uU][Dd][oO]$",
-    "^[Aa][Dd][Dd][Ss][uU][Dd][oO]$",
-    "^[~!/][Aa][Dd][Dd][Aa][Dd][Mm][Ii][Nn]$",
-    "^[Aa][Dd][Dd][Aa][Dd][Mm][Ii][Nn]$",
-  }, 
-  run = run
-  
-}
+description = "insudo",
+usage = {
+"!invite name [user_name]",
+"!invite id [user_id]" },
+patterns = {
+"^[!/](addsudo)$",
+"^([Aa]ddsudo)$"
 
+},
+run = run
+}
 end
 
-
-
-
---  -_-_-_-_-_-_-_-_-_-   ||-_-_-_-_-_   ||             ||-_-_-_-_-_
---           ||           ||             ||             ||
---           ||           ||             ||             ||
---           ||           ||             ||             ||
---           ||           ||-_-_-_-_-_   ||             ||-_-_-_-_-_
---           ||           ||             ||             ||
---           ||           ||             ||             ||
---           ||           ||             ||             ||
---           ||           ||-_-_-_-_-_   ||-_-_-_-_-_   ||-_-_-_-_-_
---
---
---                               /\                              /\             /-_-_-_-_-_    ||-_-_-_-_-_   ||-_-_-_-_-_
---  ||\\            //||        //\\        ||      //||        //\\           //              ||             ||         //
---  || \\          // ||       //  \\       ||     // ||       //  \\         //               ||             ||       //
---  ||  \\        //  ||      //    \\      ||    //  ||      //    \\       ||                ||             ||    //
---  ||   \\      //   ||     //______\\     ||   //   ||     //______\\      ||      -_-_-_-   ||-_-_-_-_-_   || //
---  ||    \\    //    ||    //        \\    ||  //    ||    //        \\     ||           ||   ||             ||  \\ 
---  ||     \\  //     ||   //          \\   || //     ||   //          \\     \\          ||   ||             ||     \\
---  ||      \\//      ||  //            \\  ||//      ||  //            \\     \\-_-_-_-_-||   ||-_-_-_-_-_   ||        \\
---
---
---  ||-_-_-_-    ||           ||           ||               //-_-_-_-_-_-
---  ||     ||    ||           ||           ||              //
---  ||_-_-_||    ||           ||           ||             //
---  ||           ||           ||           ||             \\
---  ||           ||           \\           //              \\
---  ||           ||            \\         //               //
---  ||           ||-_-_-_-_     \\-_-_-_-//    -_-_-_-_-_-//
---
---By @holyscrolls
+--@Holyscrolls
+--@Hextor_ch
