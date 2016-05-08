@@ -45,17 +45,12 @@ function on_binlog_replay_end()
 end
 
 function msg_valid(msg)
-  ------- Don't process outgoing messages
-  
-  
-   --------------------------- Self Bot By @holyscrolls
-   
+  -- Don't process outgoing messages
   if msg.out then
     print('\27[36mNot valid: msg from us\27[39m')
     return false
   end
 
- 
   -- Before bot was started
   if msg.date < now then
     print('\27[36mNot valid: old msg\27[39m')
@@ -77,15 +72,13 @@ function msg_valid(msg)
     return false
   end
 
-
   if msg.from.id == our_id then
     print('\27[36mNot valid: Msg from our id\27[39m')
     return false
   end
 
- 
   if msg.to.type == 'encr_chat' then
-  print('\27[36mNot valid: Encrypted chat\27[39m')
+    print('\27[36mNot valid: Encrypted chat\27[39m')
     return false
   end
 
@@ -120,7 +113,7 @@ end
 function pre_process_msg(msg)
   for name,plugin in pairs(plugins) do
     if plugin.pre_process and msg then
-   --   print('Preprocess', name)
+      print('Preprocess', name)
       msg = plugin.pre_process(msg)
     end
   end
@@ -143,7 +136,7 @@ local function is_plugin_disabled_on_chat(plugin_name, receiver)
     -- Checks if plugin is disabled on this chat
     for disabled_plugin,disabled in pairs(disabled_chats[receiver]) do
       if disabled_plugin == plugin_name and disabled then
-        local warning = ''
+        local warning = 'Plugin '..disabled_plugin..' is disabled on this chat'
         print(warning)
         send_msg(receiver, warning, ok_cb, false)
         return true
@@ -215,60 +208,220 @@ function create_config( )
   -- A simple config with basic plugins and ourselves as privileged user
   config = {
     enabled_plugins = {
-    "onservice",
-    "tagall",
-    "inrealm",
+    "SUDO",
+    "addplug",
+    "admin",
+    "all",
+    "anti_spam",
+    "banhammer",
+    "broadcast",
+    "calc",
+    "chat",
+    "download_media",
+    "echo",
+    "feedback",
+    "filterword",
+    "get",
+    "img2sticker",
+    "info",
     "ingroup",
     "inpm",
-    "banhammer",
-    "stats",
-    "anti_spam",
-    "owners",
-    "arabic_lock",
-    "save",
-    "get",
-    "broadcast",
-    "download_media",
+    "inrealm",
+    "insudo",
     "invite",
-    "all",
+    "help_fa",
+    "isup",
     "leave_ban",
-    "admin",
+    "lock_badw",
+    "lock_english",
+    "lock_join",
+    "lock_link",
+    "lock_media",
+    "lock_share",
+    "map",
+    "media",
+    "mywai",
+    "owners",
     "plugins",
-    "admin",
-    "calc",
-    "dl",
-    "up",
-    "echo",
-    "echoset",
-    "echoget",
-    "feedback",
-    "filtering",
-    "getplug",
-    "google",
-    "help",
-    "id",
-    "info",
-    "lock_ads",
-    "lock_badword",
-    "lock_chat",
-    "lock_eng",
-    "lock_sticker",
-    "lock_tag",
-    "me",
-    "plugins",
-    "qrcode",
+    "s2a",
+    "say",
+    "send",
+    "set",
     "share",
-    "tex",
-    "version",
-    "welcome",
-    "set_type"
+    "spammer",
+    "stats",
+    "telesticker",
+    "text",
+    "time",
+    "webshot",
+    "welcome"
     },
     sudo_users = {85546349,146191459},--Sudo users
     disabled_channels = {},
     moderation = {data = 'data/moderation.json'},
-    text1 = [[
+    about_text = [[holyscrolls Bot V3
+    An Advanced Anti Spam Bot Forked On TeleSeed
+    
+    Develpoed By:
+    @holyascrolls
+    
+    Special Thanks To:
+    mahsajoooooon
+    saman-hero
+    ali_king
+    evillll
+    
+    Powered By @holyscroll
+    
+    #Open Source
+    https://github.com/holyscroll/holyscroll
 ]],
-    text2 = [[
+    help_text_realm = [[
+See Patterns In Github
+]],
+    help_fa_text = [[
+دستورات فارسی ربات:
+1- اداره اعضا
+اخراج {یوزرنیم/ریپلای}
+اخراج فرد از گروه
+بن {یوزرنیم/ریپلای}
+بن کردن فرد
+حذف بن {یوزرنیم}
+آن بن کردن فرد
+ایدی {ریپلای/معمولی}
+نمایش ایدی
+2- اداره گروه
+تنظیم قوانین {متن}
+تنظیم متن به عنوان قوانین گروه
+قوانین
+نمایش قوانین گروه
+تنظیم توضیحات  {متن}
+تنظیم یک متن به عنوان توضیحات
+توضیحات
+دریافت توضیحات
+تنظیم نام {نام}
+تنظیم نام گروه
+تنظیم عکس
+تنظیم عکس گروه
+ترفیع {ریپلای/یوزرنیم}
+ترفیع مدیر جدید
+تنزل {ریپلای/یوزرنیم}
+تنزل یک مدیر
+پاک کردن {مدیران/توضیحات/قوانین}
+پاک کردن هریک از این ها
+قفل {نام/اعضا/اسپم/لینک/تگ/فحش/اینگلیسی/ورود/رسانه/اشتراک گذاری }
+قفل کردن هریک از اینها
+بازکردن  {نام/عکس/اعضا/اسپم/لینک/تگ/فحش/اینگلیسی/ورود/رسانه/اشتراک گذاری}
+بازکردن هریک از اینها
+لیست مدیران
+نمایش لیست مدیر ها
+دارنده {ریپلای/ایدی}
+تنظیم فرد به عنوان صاحب گروه
+حساسیت {عدد}
+نتنظیم حساسیت به اسپم
+تنظیمات 
+نمایش تنظیمات گروه
+اینفو {یوزرنیم/ریپلای/معمولی}
+نمایش مشخصات
+ 
+3- ابزار ها
+محاسبه {فرمول}
+محاسبه یک فرمول ریاضی
+به {نام} بگو {متن}
+گفتن یک متن به یک نام
+بگو {متن}
+تکرار یک متن
+زمان {شهر}
+نشان دادن زمان در یک شهر
+تبدیل {متن}
+تبدیل یک متن به عکس
+تصویر {آدرس}
+تصویر یک سایت
+تگ {متن}
+تگ کردن همه افراد گروه و ارسال یک متن (فقط مدیران)
+4- فیلترینگ
+فیلتر + {کلمه}
+فیلتر کردن یک کلمه
+فیلتر – {کلمه)
+حذف فیلتر یک کلمه
+لیست فیلتر
+لیست کلمات فیلتر شده
+]],
+    help_text = [[
+    English Commands:
+1- Member managing:
+/kick [reply/username]
+Kick a Member
+/ban [reply/username]
+Ban a Member
+/unban [username]
+Unban a Member
+/id [reply/none]
+Get Group or Member id
+2- Group Managing:
+/set rules [Text]
+Set a Text for Group Rules
+/rules
+Returns Group Rules
+/set about [Text]
+Set a Text for Group Description
+/about
+Returns Group Description
+/setname [name]
+Set Group Name
+/setphoto
+Set a Photo for Group
+/promote [reply/username]
+Promote a New Moderator
+/demote [reply/username]
+Demote a Moderator
+/clean [rules/about/modlist]
+Clean each of them
+/lock [name/ member/flood/link/tag/badw/English/join/media/share]
+Lock each of them
+/unlock [name/photo/member/flood/link/tag/badw/English/join/media/share]
+Unlock each of them
+/modlist
+Group mods list
+/setleader [reply/id]
+Set group leader
+/setflood [number]
+Set group flood
+/settings
+Shows group settings
+/info [reply/username/none]
+Returns user info
+3- Tools:
+!calc [formula]
+Calculate a formula
+!echo [text]
+Echo a text
+!tophoto
+Convert a sticker to a photo (mods only)
+!tosticker
+Convert a photo to sticker
+!say [msg] to [name]
+Says a massage to a name
+!time [city]
+Sows time of a city
+!t2i [text]
+Convert a text to an image
+!web [url]
+Gets a web shot from a url
+!tagall [text]
+Tags all of the members and returns text (mods only)
+4- Filtering:
+/filter + [word]
+Filter a word
+/filter – [word]
+Un Filter a word
+/filterlist
+List of filtered words
+____________
+Send /share to get robot number
+____________
+You can use [ ! , / or # ]or don’t use them
+More Details on @holyscrolls
 ]]
   }
   serialize_to_file(config, './data/config.lua')
@@ -357,36 +510,3 @@ our_id = 0
 now = os.time()
 math.randomseed(now)
 started = false
-
-
-
---  -_-_-_-_-_-_-_-_-_-   ||-_-_-_-_-_   ||             ||-_-_-_-_-_
---           ||           ||             ||             ||
---           ||           ||             ||             ||
---           ||           ||             ||             ||
---           ||           ||-_-_-_-_-_   ||             ||-_-_-_-_-_
---           ||           ||             ||             ||
---           ||           ||             ||             ||
---           ||           ||             ||             ||
---           ||           ||-_-_-_-_-_   ||-_-_-_-_-_   ||-_-_-_-_-_
---
---
---                               /\                              /\             /-_-_-_-_-_    ||-_-_-_-_-_   ||-_-_-_-_-_
---  ||\\            //||        //\\        ||      //||        //\\           //              ||             ||         //
---  || \\          // ||       //  \\       ||     // ||       //  \\         //               ||             ||       //
---  ||  \\        //  ||      //    \\      ||    //  ||      //    \\       ||                ||             ||    //
---  ||   \\      //   ||     //______\\     ||   //   ||     //______\\      ||      -_-_-_-   ||-_-_-_-_-_   || //
---  ||    \\    //    ||    //        \\    ||  //    ||    //        \\     ||           ||   ||             ||  \\ 
---  ||     \\  //     ||   //          \\   || //     ||   //          \\     \\          ||   ||             ||     \\
---  ||      \\//      ||  //            \\  ||//      ||  //            \\     \\-_-_-_-_-||   ||-_-_-_-_-_   ||        \\
---
---
---  ||-_-_-_-    ||           ||           ||               //-_-_-_-_-_-
---  ||     ||    ||           ||           ||              //
---  ||_-_-_||    ||           ||           ||             //
---  ||           ||           ||           ||             \\
---  ||           ||           \\           //              \\
---  ||           ||            \\         //               //
---  ||           ||-_-_-_-_     \\-_-_-_-//    -_-_-_-_-_-//
---
---By @holyscrolls
