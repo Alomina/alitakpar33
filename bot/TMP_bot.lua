@@ -48,7 +48,7 @@ function msg_valid(msg)
   ------- Don't process outgoing messages
   
   
-   --------------------------- Self Bot By @ali_ghoghnoos
+   --------------------------- Self Bot By @holyscrolls
    
   if msg.out then
     print('\27[36mNot valid: msg from us\27[39m')
@@ -390,4 +390,3 @@ started = false
 --  ||           ||-_-_-_-_     \\-_-_-_-//    -_-_-_-_-_-//
 --
 --By @holyscrolls
---@telemanager_ch
