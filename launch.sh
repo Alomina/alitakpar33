@@ -1,20 +1,3 @@
-Skip to content
-  Switch to mobile version
-This repository
-Search
-Pull requests
-Issues
-Gist
- @holyscroll
- Watch 3
-  Star 15
- Fork 54 SbssTeam/Sbss
- Code  Issues 0  Pull requests 1  Wiki  Pulse  Graphs
-Branch: master Find file Copy pathSbss/launch.sh
-9d8ba17  23 days ago
-@MRAHS MRAHS Update launch.sh
-3 contributors @Rondoozle @MRAHS @Imandaneshi
-RawBlameHistory    Executable File  119 lines (97 sloc)  2.41 KB
 #!/usr/bin/env bash
 
 THIS_DIR=$(cd $(dirname $0); pwd)
@@ -129,9 +112,7 @@ else
   fi
   while true; do
    rm -r ../.telegram-cli/state
-   ./tg/bin/telegram-cli -k ./tg/tg-server.pub -s ./bot/sbssbot.lua -l 1 -E $@
+   ./tg/bin/telegram-cli -k ./tg/tg-server.pub -s ./bot/Teleking_bot.lua -l 1 -E $@
    sleep 3
   done
 fi
-Status API Training Shop Blog About
-© 2016 GitHub, Inc. Terms Privacy Security Contact Help
