@@ -20,13 +20,16 @@ function get_receiver(msg)
   if msg.to.type == 'chat' then
     return 'chat#id'..msg.to.id
   end
+  if msg.to.type == 'channel' then
+    return 'channel#id'..msg.to.id
+  end
   if msg.to.type == 'encr_chat' then
     return msg.to.print_name
   end
 end
 
 function is_chat_msg( msg )
-  if msg.to.type == 'chat' then
+  if msg.to.type == 'chat' or msg.to.type == 'channel' then
     return true
   end
   return false
@@ -377,7 +380,7 @@ end
 -- Returns true if user was warned and false if not warned (is allowed)
 function warns_user_not_allowed(plugin, msg)
   if not user_allowed(plugin, msg) then
-    local text = 'This plugin requires Sudo users'
+    local text = 'This plugin requires privileged user'
     local receiver = get_receiver(msg)
     send_msg(receiver, text, ok_cb, false)
     return true
@@ -808,19 +811,13 @@ end
 function ban_list(chat_id)
   local hash =  'banned:'..chat_id
   local list = redis:smembers(hash)
-  local text = "Group ban list :\n\n"
+  local text = "Ban list !\n\n"
   for k,v in pairs(list) do
  		local user_info = redis:hgetall('user:'..v)
--- 		vardump(user_info)
-		if user_info then
-		  if user_info.username then
-		    user = '@'..user_info.username
-	    elseif user_info.print_name and not user_info.username then
-	      user = string.gsub(user_info.print_name, "_", " ")
-  	  else 
-        user = ''
-      end
-      text = text..k.." - "..user.." ["..v.."]\n"
+		if user_info and user_info.print_name then
+   	text = text..k.." - "..string.gsub(user_info.print_name, "_", " ").." ["..v.."]\n"
+  	else 
+    text = text..k.." - "..v.."\n"
 		end
 	end
  return text
@@ -830,19 +827,13 @@ end
 function banall_list() 
   local hash =  'gbanned'
   local list = redis:smembers(hash)
-  local text = "global bans :\n\n"
+  local text = "global bans !\n\n"
   for k,v in pairs(list) do
- 		local user_info = redis:hgetall('user:'..v)
--- 		vardump(user_info)
-		if user_info then
-		  if user_info.username then
-		    user = '@'..user_info.username
-	    elseif user_info.print_name and not user_info.username then
-	      user = string.gsub(user_info.print_name, "_", " ")
-  	  else 
-        user = ''
-      end
-      text = text..k.." - "..user.." ["..v.."]\n"
+		 		local user_info = redis:hgetall('user:'..v)
+		if user_info and user_info.print_name then
+   	text = text..k.." - "..string.gsub(user_info.print_name, "_", " ").." ["..v.."]\n"
+  	else 
+    text = text..k.." - "..v.."\n"
 		end
 	end
  return text
@@ -901,7 +892,7 @@ function ban_by_reply(extra, success, result)
     return "you can't kick mods,owner and admins"
   end
   ban_user(result.from.id, result.to.id)
-  send_large_msg(chat, "User "..result.from.id.."\nBanned from group!\n\nName : "..result.from.print_name.."\nUsername : @"..result.from.username)
+  send_large_msg(chat, "User "..result.from.id.." Banned")
   else
     return 'Use This in Your Groups'
   end
@@ -918,7 +909,7 @@ function ban_by_reply_admins(extra, success, result)
       return
     end
     ban_user(result.from.id, result.to.id)
-    send_large_msg(chat, "User "..result.from.id.."\nBanned from group!\nUsername : @"..result.from.username)
+    send_large_msg(chat, "User "..result.from.id.." Banned")
   else
     return 'Use This in Your Groups'
   end
@@ -931,7 +922,7 @@ function unban_by_reply(extra, success, result)
     if tonumber(result.from.id) == tonumber(our_id) then -- Ignore bot
       return "I won't unban myself"
     end
-    send_large_msg(chat, "User "..result.from.id.."\nUnbanned from all of my Groups!\n\nusername : @"..result.from.username)
+    send_large_msg(chat, "User "..result.from.id.." Unbanned")
     -- Save on redis
     local hash =  'banned:'..result.to.id
     redis:srem(hash, result.from.id)
@@ -951,40 +942,8 @@ function banall_by_reply(extra, success, result)
     local name = user_print_name(result.from)
     banall_user(result.from.id)
     chat_del_user(chat, 'user#id'..result.from.id, ok_cb, false)
-    send_large_msg(chat, "User Banned From all of my groups!\n\nName : "..name.."\n\nID : "..result.from.id.."\n\nUsername : @"..result.from.username)
+    send_large_msg(chat, "User "..name.."["..result.from.id.."] hammered")
   else
     return 'Use This in Your Groups'
   end
 end
-
---  -_-_-_-_-_-_-_-_-_-   ||-_-_-_-_-_   ||             ||-_-_-_-_-_
---           ||           ||             ||             ||
---           ||           ||             ||             ||
---           ||           ||             ||             ||
---           ||           ||-_-_-_-_-_   ||             ||-_-_-_-_-_
---           ||           ||             ||             ||
---           ||           ||             ||             ||
---           ||           ||             ||             ||
---           ||           ||-_-_-_-_-_   ||-_-_-_-_-_   ||-_-_-_-_-_
---
---
---                               /\                              /\             /-_-_-_-_-_    ||-_-_-_-_-_   ||-_-_-_-_-_
---  ||\\            //||        //\\        ||      //||        //\\           //              ||             ||         //
---  || \\          // ||       //  \\       ||     // ||       //  \\         //               ||             ||       //
---  ||  \\        //  ||      //    \\      ||    //  ||      //    \\       ||                ||             ||    //
---  ||   \\      //   ||     //______\\     ||   //   ||     //______\\      ||      -_-_-_-   ||-_-_-_-_-_   || //
---  ||    \\    //    ||    //        \\    ||  //    ||    //        \\     ||           ||   ||             ||  \\ 
---  ||     \\  //     ||   //          \\   || //     ||   //          \\     \\          ||   ||             ||     \\
---  ||      \\//      ||  //            \\  ||//      ||  //            \\     \\-_-_-_-_-||   ||-_-_-_-_-_   ||        \\
---
---
---  ||-_-_-_-    ||           ||           ||               //-_-_-_-_-_-
---  ||     ||    ||           ||           ||              //
---  ||_-_-_||    ||           ||           ||             //
---  ||           ||           ||           ||             \\
---  ||           ||           \\           //              \\
---  ||           ||            \\         //               //
---  ||           ||-_-_-_-_     \\-_-_-_-//    -_-_-_-_-_-//
---
---By @holyscrolls
---@telemanager_ch
